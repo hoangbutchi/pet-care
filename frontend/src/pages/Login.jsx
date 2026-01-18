@@ -30,8 +30,19 @@ const Login = () => {
                 
                 {/* Demo credentials info */}
                 <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
-                    <p className="text-sm text-blue-700 font-medium">Demo Credentials:</p>
-                    <p className="text-xs text-blue-600">Any email + password → ADMIN → Product Management</p>
+                    <p className="text-sm text-blue-700 font-medium">Tài khoản Demo:</p>
+                    <div className="text-xs text-blue-600 space-y-1">
+                        <div>
+                            <p className="font-medium">Tài khoản User:</p>
+                            <p>Email: user@petcare.com</p>
+                            <p>Password: user123</p>
+                        </div>
+                        <div className="mt-2">
+                            <p className="font-medium">Tài khoản Admin:</p>
+                            <p>Email: admin@petcare.com</p>
+                            <p>Password: admin123</p>
+                        </div>
+                    </div>
                 </div>
                 
                 {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
