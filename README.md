@@ -1,6 +1,7 @@
-# 🐾 Pet Care Pro - Pet Management System
+# 🐱🐕 Pet Care + _web pet care
 
-A full-stack web application for pet management, veterinary appointments, and pet product shopping.
+A full-stack web application for pet management, veterinary appointments, and pet product shopping,
+edit product,add my pet.
 
 [English](#english) | [Tiếng Việt](#tiếng-việt)
 
