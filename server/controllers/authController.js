@@ -31,18 +31,18 @@ const registerUser = async (req, res) => {
                 name,
                 email,
                 password: hashedPassword,
-                role: 'USER' // Default role
+                simpleRole: 'USER' // Default role
             }
         });
 
         if (user) {
             res.status(201).json({
-                token: generateToken(user.id, user.role),
+                token: generateToken(user.id, user.simpleRole),
                 user: {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    role: user.role
+                    role: user.simpleRole
                 }
             });
         } else {
@@ -67,12 +67,12 @@ const loginUser = async (req, res) => {
 
         if (user && (await bcrypt.compare(password, user.password))) {
             res.json({
-                token: generateToken(user.id, user.role),
+                token: generateToken(user.id, user.simpleRole),
                 user: {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    role: user.role
+                    role: user.simpleRole
                 }
             });
         } else {

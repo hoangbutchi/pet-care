@@ -8,7 +8,7 @@ import axios from '../utils/axios';
 const Home = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, isValidToken } = useAuth();
     const [activeTestimonial, setActiveTestimonial] = useState(0);
     const [appointments, setAppointments] = useState([]);
     const [loadingAppointments, setLoadingAppointments] = useState(false);
@@ -17,18 +17,29 @@ const Home = () => {
 
     // Fetch user appointments
     useEffect(() => {
-        if (user) {
-            fetchAppointments();
+        if (user && isValidToken()) {
+            // Add a small delay to ensure token is properly set
+            setTimeout(() => {
+                fetchAppointments();
+            }, 100);
         }
-    }, [user]);
+    }, [user, isValidToken]);
 
     const fetchAppointments = async () => {
+        // Don't fetch if user doesn't have a valid token
+        if (!isValidToken()) {
+            console.log('Skipping appointments fetch - no valid token');
+            return;
+        }
+
         setLoadingAppointments(true);
         try {
             const response = await axios.get('/appointments/my');
             setAppointments(response.data.slice(0, 3)); // Show only latest 3
         } catch (error) {
             console.error('Failed to fetch appointments:', error);
+            // Don't show error to user, just log it
+            setAppointments([]); // Set empty array so UI doesn't break
         } finally {
             setLoadingAppointments(false);
         }

@@ -16,7 +16,7 @@ async function main() {
       email: 'admin@petcare.com',
       name: 'Admin User',
       password: hashedPassword,
-      role: 'ADMIN'
+      simpleRole: 'ADMIN'
     }
   });
 
@@ -30,7 +30,7 @@ async function main() {
       email: 'user@petcare.com',
       name: 'Regular User',
       password: userPassword,
-      role: 'USER'
+      simpleRole: 'USER'
     }
   });
 

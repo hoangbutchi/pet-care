@@ -55,8 +55,8 @@ const ProductDetail = () => {
 
     const product = {
         ...currentProduct,
-        price: currentProduct.prices?.[0]?.regularPrice || 0,
-        salePrice: currentProduct.prices?.[0]?.salePrice,
+        price: currentProduct.prices?.[0]?.regularPrice || currentProduct.price || 0,
+        salePrice: currentProduct.prices?.[0]?.salePrice || currentProduct.salePrice,
         image: currentProduct.images?.[0]?.url || currentProduct.image || 'https://via.placeholder.com/600'
     };
     const images = [product.image || 'https://via.placeholder.com/600'];

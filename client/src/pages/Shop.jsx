@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Heart, ShoppingCart, Star, Eye, ChevronDown, Filter, Grid, List, Search, ArrowRight, RotateCcw } from 'lucide-react';
+import { Heart, ShoppingCart, Star, Eye, ChevronDown, Filter, Grid, List, Search, ArrowRight, RotateCcw, Plus, Settings } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // Import Store
 import { useProductStore } from '../store/productStore';
+import { useAuth } from '../context/AuthContext';
 import { useCartStore } from '../store/cartStore';
 
 // Import Icons for decorative elements if needed
@@ -13,6 +14,7 @@ import { useCartStore } from '../store/cartStore';
 
 const Shop = () => {
     const { t } = useTranslation();
+    const { user } = useAuth();
     const [view, setView] = useState('grid');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [priceRange, setPriceRange] = useState([0, 100]);
@@ -177,6 +179,33 @@ const Shop = () => {
                             <Search className="w-6 h-6" />
                         </button>
                     </div>
+
+                    {/* Admin Controls */}
+                    {user?.user?.role === 'ADMIN' && (
+                        <div className="mt-8 flex flex-wrap justify-center gap-4">
+                            <Link
+                                to="/admin/products"
+                                className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg"
+                            >
+                                <Plus size={20} />
+                                Add Product
+                            </Link>
+                            <Link
+                                to="/admin/inventory"
+                                className="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors shadow-lg"
+                            >
+                                <Settings size={20} />
+                                Manage Inventory
+                            </Link>
+                            <Link
+                                to="/admin/prices"
+                                className="flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-purple-700 transition-colors shadow-lg"
+                            >
+                                <Settings size={20} />
+                                Manage Prices
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -333,8 +362,30 @@ const Shop = () => {
                     <main className="flex-1">
                         {/* Toolbar */}
                         <div className="bg-white rounded-2xl shadow-sm p-4 mb-8 border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <div className="bg-cream text-primary px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2">
-                                <span>📊</span> {filteredProducts.length} {t('shop_page.toolbar.products_found')}
+                            <div className="flex items-center gap-4">
+                                <div className="bg-cream text-primary px-4 py-2 rounded-full font-medium text-sm flex items-center gap-2">
+                                    <span>📊</span> {filteredProducts.length} {t('shop_page.toolbar.products_found')}
+                                </div>
+                                
+                                {/* Admin Quick Actions */}
+                                {user?.user?.role === 'ADMIN' && (
+                                    <div className="flex items-center gap-2">
+                                        <Link
+                                            to="/admin/products"
+                                            className="flex items-center gap-1 bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                                        >
+                                            <Plus size={16} />
+                                            Add
+                                        </Link>
+                                        <Link
+                                            to="/admin"
+                                            className="flex items-center gap-1 bg-gray-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors"
+                                        >
+                                            <Settings size={16} />
+                                            Admin
+                                        </Link>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -397,13 +448,15 @@ const Shop = () => {
                                         className={`group bg-white rounded-3xl overflow-hidden hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] transition-all duration-300 border border-transparent hover:border-tan hover:-translate-y-2 ${view === 'list' ? 'flex flex-row items-center p-4 gap-6' : 'flex flex-col'}`}
                                     >
                                         {/* Image Section */}
-                                        <Link to={`/product/${product.id}`} className={`relative overflow-hidden cursor-pointer ${view === 'list' ? 'w-48 h-48 rounded-2xl shrink-0' : 'aspect-square'}`}>
-                                            <div className="absolute inset-0 bg-gray-50/50 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
-                                            <img
-                                                src={product.image}
-                                                alt={product.name}
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
-                                            />
+                                        <div className={`relative overflow-hidden cursor-pointer ${view === 'list' ? 'w-48 h-48 rounded-2xl shrink-0' : 'aspect-square'}`}>
+                                            <Link to={`/product/${product.id}`} className="block w-full h-full">
+                                                <div className="absolute inset-0 bg-gray-50/50 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
+                                                <img
+                                                    src={product.image}
+                                                    alt={product.name}
+                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
+                                                />
+                                            </Link>
 
                                             {/* Badges */}
                                             {product.tag && (
@@ -412,6 +465,13 @@ const Shop = () => {
                                                         'bg-gradient-to-r from-secondary to-accent text-white'
                                                     }`}>
                                                     {t(`shop_page.product.tags.${product.tag}`)}
+                                                </span>
+                                            )}
+                                            
+                                            {/* Admin Badge */}
+                                            {user?.user?.role === 'ADMIN' && (
+                                                <span className="absolute bottom-4 left-4 z-20 px-2 py-1 bg-blue-600 text-white text-[10px] font-bold rounded-full shadow-lg">
+                                                    ID: {product.id.slice(-6)}
                                                 </span>
                                             )}
 
@@ -423,6 +483,12 @@ const Shop = () => {
                                                 <Link to={`/product/${product.id}`} className="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-gray-500 hover:bg-cream hover:text-primary shadow-lg transition-all hover:scale-110 delay-75">
                                                     <Eye size={18} />
                                                 </Link>
+                                                {/* Admin Edit Button */}
+                                                {user?.user?.role === 'ADMIN' && (
+                                                    <Link to={`/admin/products?edit=${product.id}`} className="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-gray-500 hover:bg-blue-50 hover:text-blue-600 shadow-lg transition-all hover:scale-110 delay-100">
+                                                        <Settings size={18} />
+                                                    </Link>
+                                                )}
                                             </div>
 
                                             {!product.inStock && (
@@ -430,7 +496,7 @@ const Shop = () => {
                                                     <span className="text-white font-bold border-2 border-white px-4 py-2 uppercase tracking-widest text-sm">Hết Hàng</span>
                                                 </div>
                                             )}
-                                        </Link>
+                                        </div>
 
                                         {/* Content Section */}
                                         <div className={`flex flex-col flex-1 ${view === 'list' ? '' : 'p-6'}`}>

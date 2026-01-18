@@ -107,7 +107,7 @@ const Cart = () => {
                       <p className="text-sm text-gray-500">{item.variantName}</p>
                     )}
                     <p className="text-lg font-bold text-primary mt-1">
-                      ${item.price.toFixed(2)}
+                      ${typeof item.price === 'number' ? item.price.toFixed(2) : parseFloat(item.price || 0).toFixed(2)}
                     </p>
 
                     {/* Quantity Controls */}
@@ -162,7 +162,7 @@ const Cart = () => {
             <div className="flex justify-between items-center text-lg">
               <span className="font-semibold text-gray-700">Tổng cộng:</span>
               <span className="text-2xl font-bold text-primary">
-                ${getTotalPrice().toFixed(2)}
+                ${(getTotalPrice() || 0).toFixed(2)}
               </span>
             </div>
 

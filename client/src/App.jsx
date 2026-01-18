@@ -26,6 +26,11 @@ import Grooming from './pages/Grooming';
 import ProductManagement from './pages/admin/ProductManagement';
 import PriceManagement from './pages/admin/PriceManagement';
 import InventoryManagement from './pages/admin/InventoryManagement';
+// Employee Management & RBAC
+import EmployeeList from './pages/admin/EmployeeList';
+import EmployeeForm from './pages/admin/EmployeeForm';
+import EmployeeDetail from './pages/admin/EmployeeDetail';
+import RoleList from './pages/admin/RoleList';
 // Communication Module
 import Chat from './pages/Chat';
 import EmailMarketing from './pages/EmailMarketing';
@@ -83,6 +88,35 @@ function App() {
                             <Route path="/admin/inventory" element={
                                 <AdminRoute>
                                     <InventoryManagement />
+                                </AdminRoute>
+                            } />
+                            
+                            {/* Employee Management Routes */}
+                            <Route path="/admin/employees" element={
+                                <AdminRoute>
+                                    <EmployeeList />
+                                </AdminRoute>
+                            } />
+                            <Route path="/admin/employees/new" element={
+                                <AdminRoute>
+                                    <EmployeeForm />
+                                </AdminRoute>
+                            } />
+                            <Route path="/admin/employees/:id" element={
+                                <AdminRoute>
+                                    <EmployeeDetail />
+                                </AdminRoute>
+                            } />
+                            <Route path="/admin/employees/:id/edit" element={
+                                <AdminRoute>
+                                    <EmployeeForm />
+                                </AdminRoute>
+                            } />
+                            
+                            {/* Role Management Routes */}
+                            <Route path="/admin/roles" element={
+                                <AdminRoute>
+                                    <RoleList />
                                 </AdminRoute>
                             } />
                             

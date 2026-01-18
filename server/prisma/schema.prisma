@@ -11,17 +11,98 @@ datasource db {
 }
 
 // ============================================
-// USER MODEL (Existing)
+// ENUMS
+// ============================================
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// ============================================
+// ROLE & PERMISSION MODELS (RBAC System)
+// ============================================
+model Role {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  slug        String       @unique
+  description String?
+  isSystem    Boolean      @default(false)
+  permissions Permission[] @relation("RolePermissions")
+  users       User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String           @id @default(uuid())
+  name        String           @unique
+  displayName String
+  description String?
+  resource    String
+  action      String
+  roles       Role[]           @relation("RolePermissions")
+  users       UserPermission[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([resource, action])
+  @@map("permissions")
+}
+
+model UserPermission {
+  id           String     @id @default(uuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, permissionId])
+  @@map("user_permissions")
+}
+
+// ============================================
+// USER MODEL (Updated for Employee Management)
 // ============================================
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  password  String
-  role      String   @default("user")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id          String    @id @default(uuid())
+  email       String    @unique
+  username    String?   @unique
+  password    String
+  name        String    // Keep existing name field
+  phone       String?
+  avatar      String?
+  dateOfBirth DateTime?
+  gender      Gender?
+  address     String?
+  
+  // Simple role field for backward compatibility
+  simpleRole  String?   @default("USER") // USER, ADMIN, STAFF
+  
+  // Thông tin công việc
+  employeeId  String?   @unique
+  department  String?
+  position    String?
+  salary      Decimal?  @db.Decimal(10, 2)
+  hireDate    DateTime?
+  
+  // Phân quyền (RBAC)
+  roleId      String?
+  role        Role?     @relation(fields: [roleId], references: [id])
+  permissions UserPermission[]
+  
+  // Trạng thái
+  isActive    Boolean   @default(true)
+  lastLoginAt DateTime?
+  
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Relations - Existing
   orders       Order[]
   pets         Pet[]
   appointments Appointment[]
@@ -31,8 +112,31 @@ model User {
   consultations    Consultation[] @relation("ClientConsultations")
   consultantSessions Consultation[] @relation("ConsultantConsultations")
   emailCampaigns   EmailCampaign[]
+  
+  // Relations - Employee Management
+  activityLogs ActivityLog[]
 
   @@map("users")
+}
+
+// ============================================
+// ACTIVITY LOG MODEL
+// ============================================
+model ActivityLog {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action      String
+  resource    String
+  details     Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([resource])
+  @@index([createdAt])
+  @@map("activity_logs")
 }
 
 // ============================================
@@ -556,7 +660,6 @@ model Order {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  @@index([userId])
   @@index([userId])
   @@index([status])
   @@map("orders")
