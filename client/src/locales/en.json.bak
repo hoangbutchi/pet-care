@@ -1,0 +1,36 @@
+{
+    "navbar": {
+        "home": "Home",
+        "shop": "Shop",
+        "services": "Services",
+        "login": "Login",
+        "register": "Register",
+        "admin": "Admin",
+        "logout": "Logout"
+    },
+    "home": {
+        "hero": {
+            "title": "Premium Care for Your Pets",
+            "subtitle": "Expert veterinary services, premium products, and detailed health tracking.",
+            "book_appointment": "Book Appointment",
+            "shop_now": "Shop Now"
+        },
+        "services": {
+            "vet": {
+                "title": "Veterinary Care",
+                "description": "Professional checkups, vaccinations, and surgeries for your beloved pets."
+            },
+            "grooming": {
+                "title": "Pet Grooming",
+                "description": "Full service grooming to keep your pet looking and smelling fresh."
+            },
+            "shop": {
+                "title": "Premium Shop",
+                "description": "High quality food, toys, and accessories delivered to your door."
+            }
+        },
+        "best_sellers": "Best Sellers",
+        "loading_products": "Loading products...",
+        "view_all_products": "View all products"
+    }
+}

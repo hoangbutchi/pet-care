@@ -1,0 +1,36 @@
+{
+    "navbar": {
+        "home": "Trang Chủ",
+        "shop": "Cửa Hàng",
+        "services": "Dịch Vụ",
+        "login": "Đăng Nhập",
+        "register": "Đăng Ký",
+        "admin": "Quản Trị",
+        "logout": "Đăng Xuất"
+    },
+    "home": {
+        "hero": {
+            "title": "Chăm Sóc Thú Cưng Hàng Đầu",
+            "subtitle": "Dịch vụ thú y chuyên nghiệp, sản phẩm cao cấp và theo dõi sức khỏe chi tiết.",
+            "book_appointment": "Đặt Lịch Hẹn",
+            "shop_now": "Mua Sắm Ngay"
+        },
+        "services": {
+            "vet": {
+                "title": "Chăm Sóc Thú Y",
+                "description": "Kiểm tra chuyên nghiệp, tiêm phòng và phẫu thuật cho thú cưng yêu quý của bạn."
+            },
+            "grooming": {
+                "title": "Dịch Vụ Cắt Tỉa",
+                "description": "Dịch vụ cắt tỉa toàn diện giúp thú cưng của bạn luôn sạch sẽ và thơm tho."
+            },
+            "shop": {
+                "title": "Cửa Hàng Cao Cấp",
+                "description": "Thực phẩm, đồ chơi và phụ kiện chất lượng cao được giao đến tận nhà."
+            }
+        },
+        "best_sellers": "Sản Phẩm Bán Chạy",
+        "loading_products": "Đang tải sản phẩm...",
+        "view_all_products": "Xem tất cả sản phẩm"
+    }
+}

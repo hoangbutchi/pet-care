@@ -1,0 +1,237 @@
+{
+    "navbar": {
+        "home": "Home",
+        "shop": "Shop",
+        "services": "Services",
+        "login": "Login",
+        "register": "Register",
+        "admin": "Admin",
+        "logout": "Logout",
+        "contact": "Contact"
+    },
+    "footer": {
+        "services": {
+            "emergency": "Emergency Care",
+            "veterinary": "Veterinary Services",
+            "grooming": "Pet Grooming",
+            "shop": "Pet Shop"
+        },
+        "premium_care": "Premium Pet Care",
+        "rights_reserved": "All rights reserved."
+    },
+    "home": {
+        "premium": "Premium Pet Care",
+        "hero": {
+            "title": "Premium Care for",
+            "subtitle": "Your Best Friend",
+            "desc": "Professional veterinary services and premium products with world-class care.",
+            "book_appointment": "Book Appointment",
+            "shop_now": "Shop Now"
+        },
+        "stats": {
+            "happy_clients": "Happy Clients",
+            "experience": "Years Experience",
+            "success_rate": "Success Rate",
+            "expert_vets": "Expert Vets"
+        },
+        "services": {
+            "what_we_offer": "What We Offer",
+            "our_services": "Our Premium Services",
+            "desc": "Comprehensive care for your furry friends, from medical treatment to grooming.",
+            "vet": {
+                "title": "Veterinary Care",
+                "description": "Professional checkups, vaccinations, and surgeries for your beloved pets."
+            },
+            "grooming": {
+                "title": "Pet Grooming",
+                "description": "Full service grooming to keep your pet looking and smelling fresh."
+            },
+            "shop": {
+                "title": "Premium Shop",
+                "description": "High quality food, toys, and accessories delivered to your door."
+            },
+            "emergency": {
+                "title": "Emergency Care",
+                "description": "24/7 support for critical situations."
+            }
+        },
+        "testimonials": {
+            "title": "What Pet Parents Say",
+            "items": [
+                {
+                    "name": "Sarah Johnson",
+                    "pet": "Golden Retriever - Max",
+                    "text": "The best veterinary service! Professional and caring staff.",
+                    "avatar": "🐕"
+                },
+                {
+                    "name": "Nguyen Minh",
+                    "pet": "Persian Cat - Luna",
+                    "text": "Amazing service! My cat loves coming here.",
+                    "avatar": "🐱"
+                },
+                {
+                    "name": "David Kim",
+                    "pet": "Poodle - Coco",
+                    "text": "Emergency service saved my pet. Forever grateful!",
+                    "avatar": "🐩"
+                }
+            ]
+        },
+        "cta": {
+            "title": "Ready to Give Your Pet the Best Care?",
+            "desc": "Our experienced veterinarians are here for your beloved companions.",
+            "schedule_now": "Schedule Now"
+        },
+        "badges": {
+            "licensed": "Licensed Vets",
+            "emergency": "24/7 Emergency",
+            "premium": "Premium Care"
+        },
+        "learn_more": "Learn more"
+    },
+    "services_page": {
+        "title": "Our Services",
+        "subtitle": "Professional veterinary team with over 10 years of experience, modern equipment, devoted to your pet's health and happiness 24/7",
+        "stats": {
+            "pets": "Happy Pets",
+            "doctors": "Expert Doctors",
+            "support": "Ready to Serve"
+        },
+        "emergency": {
+            "title": "🚨 Emergency & Critical Care",
+            "desc": "Urgent support for critical situations. Our team is always ready to serve you.",
+            "hotline": "📞 1900-XXXX",
+            "call_now": "Call Now"
+        },
+        "groups": {
+            "preventive": {
+                "tag": "Preventive Care",
+                "title": "Early Health Protection",
+                "desc": "Comprehensive preventive service packages to keep your pet healthy, happy, and active every day",
+                "items": [
+                    {
+                        "title": "Vaccination",
+                        "desc": "Protect your pet from dangerous diseases like rabies, distemper, parvo, and other viral/bacterial infections with high-quality vaccines.",
+                        "meta": {
+                            "time": "⏱️ 30 mins",
+                            "note": "📋 Record Book",
+                            "safety": "✅ Safe"
+                        },
+                        "price": "From 200.000đ",
+                        "iconKey": 1,
+                        "link": "/vaccination"
+                    },
+                    {
+                        "title": "Parasite Prevention",
+                        "desc": "Effective control and treatment of parasites such as worms, ticks, fleas, and intestinal parasites using high-end medications.",
+                        "meta": {
+                            "time": "⏱️ 20 mins",
+                            "note": "🔄 Every 3 months",
+                            "safety": "💊 Imported Meds"
+                        },
+                        "price": "From 150.000đ",
+                        "iconKey": 2,
+                        "link": "/parasite-prevention"
+                    },
+                    {
+                        "title": "Regular Health Checkup",
+                        "desc": "Early detection of potential health issues through blood tests, urine analysis, and comprehensive exams with modern equipment.",
+                        "meta": {
+                            "time": "⏱️ 45 mins",
+                            "note": "📊 Detailed Report",
+                            "safety": "🔬 Lab Tests"
+                        },
+                        "price": "From 300.000đ",
+                        "iconKey": 3,
+                        "link": "/health-screening"
+                    }
+                ]
+            },
+            "medical": {
+                "tag": "Diagnostics & Lab",
+                "title": "Modern Diagnostic Technology",
+                "desc": "Advanced imported medical equipment for accurate and rapid diagnosis of health issues.",
+                "items": [
+                    {
+                        "title": "Exam & Treatment",
+                        "desc": "Thorough clinical examination to assess general health.",
+                        "link": "/medical-examination",
+                        "iconKey": 4
+                    },
+                    {
+                        "title": "Diagnostic Imaging",
+                        "desc": "Ultrasound, X-Ray, and modern lab tests.",
+                        "link": "/diagnostic-imaging",
+                        "iconKey": 5
+                    },
+                    {
+                        "title": "Dental Scaling",
+                        "desc": "Professional cleaning to prevent periodontal disease.",
+                        "link": "/dental-scaling",
+                        "iconKey": 9
+                    }
+                ]
+            },
+            "surgical": {
+                "title": "Surgery",
+                "items": [
+                    {
+                        "title": "General Surgery",
+                        "desc": "Safe surgery with advanced monitoring equipment.",
+                        "link": "/surgery",
+                        "iconKey": 6
+                    },
+                    {
+                        "title": "Pet Spay/Neuter",
+                        "desc": "Reproductive control and long-term health benefits.",
+                        "link": "/spay-neuter",
+                        "iconKey": 7
+                    },
+                    {
+                        "title": "Maternity Support",
+                        "desc": "Professional support for pregnancy and delivery.",
+                        "link": "/maternity",
+                        "iconKey": 8
+                    }
+                ]
+            }
+        }
+    },
+    "shop_page": {
+        "hero_title": "Premium Pet Products",
+        "hero_subtitle": "Everything your furry friend needs",
+        "filters": {
+            "title": "Filters",
+            "category": "Category",
+            "price_range": "Price Range",
+            "rating": "Rating",
+            "reset": "Reset Filters",
+            "rating_up": "& up"
+        },
+        "categories": {
+            "all": "All Products",
+            "dog": "Dog Products",
+            "cat": "Cat Products"
+        },
+        "toolbar": {
+            "products_found": "products found",
+            "sort_by": {
+                "popular": "Most Popular",
+                "price_low": "Price: Low to High",
+                "price_high": "Price: High to Low",
+                "rating": "Highest Rated",
+                "newest": "Newest"
+            }
+        },
+        "product": {
+            "add_to_cart": "Add",
+            "out_of_stock": "OUT OF STOCK",
+            "tags": {
+                "sale": "SALE",
+                "new": "NEW",
+                "popular": "POPULAR"
+            }
+        }
+    }
+}

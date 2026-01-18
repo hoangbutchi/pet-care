@@ -1,0 +1,694 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MODEL (Existing)
+// ============================================
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders       Order[]
+  pets         Pet[]
+  appointments Appointment[]
+  // Communication Module
+  sentMessages      Message[]
+  conversations    ConversationParticipant[]
+  consultations    Consultation[] @relation("ClientConsultations")
+  consultantSessions Consultation[] @relation("ConsultantConsultations")
+  emailCampaigns   EmailCampaign[]
+
+  @@map("users")
+}
+
+// ============================================
+// PET MODEL
+// ============================================
+model Pet {
+  id        String   @id @default(uuid())
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name      String
+  species   String   // Dog, Cat, etc.
+  breed     String?
+  age       Float?
+  weight    Float?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  medicalHistory MedicalRecord[]
+  appointments   Appointment[]
+  consultations  Consultation[]
+
+  @@index([ownerId])
+  @@map("pets")
+}
+
+model MedicalRecord {
+  id          String   @id @default(uuid())
+  petId       String
+  pet         Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  vet         String?
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([petId])
+  @@map("medical_records")
+}
+
+// ============================================
+// APPOINTMENT MODEL
+// ============================================
+model Appointment {
+  id          String            @id @default(uuid())
+  customerId  String
+  customer    User              @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  petId       String?
+  pet         Pet?              @relation(fields: [petId], references: [id], onDelete: SetNull)
+  service     String
+  date        DateTime
+  time        String
+  status      AppointmentStatus @default(PENDING)
+  notes       String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([customerId])
+  @@index([petId])
+  @@index([date])
+  @@map("appointments")
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+// ============================================
+// PRODUCT MANAGEMENT MODULE 1: Product Information
+// ============================================
+
+model Category {
+  id          String     @id @default(uuid())
+  name        String
+  slug        String     @unique
+  description String?
+  parentId    String?
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children    Category[] @relation("CategoryTree")
+  level       Int        @default(0)
+  image       String?
+  sortOrder   Int        @default(0)
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  products Product[]
+
+  @@index([parentId])
+  @@index([slug])
+  @@map("categories")
+}
+
+model Brand {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  logo        String?
+  website     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  products Product[]
+
+  @@index([slug])
+  @@map("brands")
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  color     String?
+  createdAt DateTime @default(now())
+
+  products ProductTag[]
+
+  @@index([slug])
+  @@map("tags")
+}
+
+model Product {
+  id               String   @id @default(uuid())
+  sku              String   @unique
+  name             String   @db.VarChar(200)
+  shortDescription String?  @db.VarChar(500)
+  description      String?  @db.Text
+  categoryId       String
+  category         Category @relation(fields: [categoryId], references: [id])
+  brandId          String?
+  brand            Brand?   @relation(fields: [brandId], references: [id])
+
+  // Product attributes (stored as JSON for flexibility)
+  attributes Json? // { color: "red", size: "M", material: "cotton" }
+
+  // Status
+  status    ProductStatus @default(IN_STOCK)
+  isActive  Boolean       @default(true)
+  isDeleted Boolean       @default(false)
+
+  // Metadata
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+
+  // Timestamps
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  images         ProductImage[]
+  videos         ProductVideo[]
+  documents      ProductDocument[]
+  tags           ProductTag[]
+  variants       ProductVariant[]
+  prices         PriceTable[]
+  inventory      Inventory?
+  stockMovements StockMovement[]
+  promotions     PromotionProduct[]
+
+  @@index([sku])
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([status])
+  @@index([isActive, isDeleted])
+  @@map("products")
+}
+
+enum ProductStatus {
+  IN_STOCK
+  OUT_OF_STOCK
+  LOW_STOCK
+  DISCONTINUED
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  isPrimary Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+model ProductVideo {
+  id        String    @id @default(uuid())
+  productId String
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  type      VideoType @default(YOUTUBE) // UPLOAD, YOUTUBE, VIMEO
+  embedCode String?
+  thumbnail String?
+  createdAt DateTime  @default(now())
+
+  @@index([productId])
+  @@map("product_videos")
+}
+
+enum VideoType {
+  UPLOAD
+  YOUTUBE
+  VIMEO
+}
+
+model ProductDocument {
+  id          String   @id @default(uuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url         String
+  fileName    String
+  displayName String
+  fileType    String // PDF, DOC, XLSX
+  fileSize    Int? // in bytes
+  createdAt   DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_documents")
+}
+
+model ProductTag {
+  id        String  @id @default(uuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  tagId     String
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, tagId])
+  @@index([productId])
+  @@index([tagId])
+  @@map("product_tags")
+}
+
+model ProductVariant {
+  id         String   @id @default(uuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku        String   @unique
+  name       String // e.g., "Red - M", "Blue - L"
+  attributes Json // { color: "red", size: "M" }
+  price      Decimal? @db.Decimal(10, 2)
+  stock      Int      @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([productId])
+  @@index([sku])
+  @@map("product_variants")
+}
+
+// ============================================
+// MODULE 2: Price Management & Sales Policy
+// ============================================
+
+model PriceChannel {
+  id          String   @id @default(uuid())
+  code        String   @unique // ONLINE, OFFLINE, APP, MARKETPLACE
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  priceTables PriceTable[]
+
+  @@index([code])
+  @@map("price_channels")
+}
+
+model PriceRegion {
+  id          String   @id @default(uuid())
+  code        String   @unique // NORTH, CENTRAL, SOUTH, INTERNATIONAL
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  priceTables PriceTable[]
+
+  @@index([code])
+  @@map("price_regions")
+}
+
+model CustomerGroup {
+  id          String   @id @default(uuid())
+  code        String   @unique // RETAIL, WHOLESALE, VIP, AGENT_1, AGENT_2, AGENT_3
+  name        String
+  description String?
+  discount    Decimal? @db.Decimal(5, 2) // Default discount percentage
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  priceTables PriceTable[]
+
+  promotions Promotion[]
+
+  @@index([code])
+  @@map("customer_groups")
+}
+
+model PriceTable {
+  id              String         @id @default(uuid())
+  name            String
+  description     String?
+  productId       String
+  product         Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  channelId       String?
+  channel         PriceChannel?  @relation(fields: [channelId], references: [id])
+  regionId        String?
+  region          PriceRegion?   @relation(fields: [regionId], references: [id])
+  customerGroupId String?
+  customerGroup   CustomerGroup? @relation(fields: [customerGroupId], references: [id])
+
+  // Pricing
+  costPrice    Decimal  @db.Decimal(10, 2)
+  regularPrice Decimal  @db.Decimal(10, 2)
+  salePrice    Decimal? @db.Decimal(10, 2)
+  margin       Decimal? @db.Decimal(10, 2) // Auto-calculated
+  vatRate      Decimal  @default(10) @db.Decimal(5, 2) // VAT percentage
+  vatAmount    Decimal? @db.Decimal(10, 2) // Auto-calculated
+
+  // Validity period
+  startDate DateTime
+  endDate   DateTime?
+  priority  Int       @default(0) // Higher priority takes precedence
+
+  // Status
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  priceHistories PriceHistory[]
+
+  @@index([productId])
+  @@index([channelId, regionId, customerGroupId])
+  @@index([startDate, endDate])
+  @@index([priority])
+  @@map("price_tables")
+}
+
+model PriceHistory {
+  id           String     @id @default(uuid())
+  priceTableId String
+  priceTable   PriceTable @relation(fields: [priceTableId], references: [id], onDelete: Cascade)
+  oldPrice     Decimal    @db.Decimal(10, 2)
+  newPrice     Decimal    @db.Decimal(10, 2)
+  changedBy    String?
+  reason       String?
+  changedAt    DateTime   @default(now())
+
+  @@index([priceTableId])
+  @@index([changedAt])
+  @@map("price_history")
+}
+
+model Promotion {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  code        String? @unique // Promotion code
+
+  // Discount type
+  discountType  DiscountType @default(PERCENTAGE) // PERCENTAGE, FIXED_AMOUNT
+  discountValue Decimal      @db.Decimal(10, 2)
+
+  // Conditions
+  minQuantity     Int?
+  minOrderValue   Decimal?       @db.Decimal(10, 2)
+  customerGroupId String?
+  customerGroup   CustomerGroup? @relation(fields: [customerGroupId], references: [id])
+  customerIds     String[]       @default([]) // Specific customers
+
+  // Validity
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+
+  // Limits
+  usageLimit       Int? // Total usage limit
+  usageCount       Int  @default(0)
+  perCustomerLimit Int? // Limit per customer
+
+  // Flash sale
+  isFlashSale    Boolean @default(false)
+  flashSaleStock Int? // Limited stock for flash sale
+
+  // Stacking
+  canStack Boolean @default(false) // Can combine with other promotions
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products PromotionProduct[]
+
+  @@index([code])
+  @@index([startDate, endDate])
+  @@index([isActive])
+  @@map("promotions")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+}
+
+model PromotionProduct {
+  id          String    @id @default(uuid())
+  promotionId String
+  promotion   Promotion @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([promotionId, productId])
+  @@index([promotionId])
+  @@index([productId])
+  @@map("promotion_products")
+}
+
+// ============================================
+// MODULE 3: Inventory Management
+// ============================================
+
+model Inventory {
+  id                String  @id @default(uuid())
+  productId         String  @unique
+  product           Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity          Int     @default(0)
+  reservedQuantity  Int     @default(0) // Reserved for orders
+  availableQuantity Int     @default(0) // quantity - reservedQuantity (computed)
+  minimumLevel      Int     @default(0) // Minimum stock level for alert
+  maximumLevel      Int? // Maximum stock level
+  reorderPoint      Int? // Auto reorder at this level
+  unit              String  @default("piece") // piece, kg, liter, etc.
+
+  // Status (auto-updated based on quantity)
+  status InventoryStatus @default(IN_STOCK)
+
+  lastRestocked DateTime?
+  lastUpdated   DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  movements StockMovement[]
+
+  @@index([productId])
+  @@index([status])
+  @@index([quantity, minimumLevel])
+  @@map("inventory")
+}
+
+enum InventoryStatus {
+  IN_STOCK
+  OUT_OF_STOCK
+  LOW_STOCK
+  DISCONTINUED
+}
+
+model StockMovement {
+  id          String    @id @default(uuid())
+  inventoryId String
+  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // Movement details
+  type          MovementType // IN, OUT, ADJUSTMENT, RETURN, DAMAGED, EXPIRED
+  quantity      Int // Positive for IN, negative for OUT
+  balanceBefore Int // Stock before this movement
+  balanceAfter  Int // Stock after this movement
+
+  // Reference
+  referenceType String? // ORDER, PURCHASE, ADJUSTMENT, etc.
+  referenceId   String? // ID of the reference document
+
+  // Metadata
+  reason      String?
+  notes       String?
+  performedBy String? // User ID
+  performedAt DateTime @default(now())
+
+  @@index([inventoryId])
+  @@index([productId])
+  @@index([type, performedAt])
+  @@index([performedAt])
+  @@map("stock_movements")
+}
+
+enum MovementType {
+  IN // Stock in
+  OUT // Stock out (sale)
+  ADJUSTMENT // Manual adjustment
+  RETURN // Customer return
+  DAMAGED // Damaged goods
+  EXPIRED // Expired goods
+  TRANSFER // Transfer between warehouses
+}
+
+// ============================================
+// ORDER MODEL (Existing - Updated)
+// ============================================
+
+model Order {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  items           Json // [{ productId, variantId, quantity, price }]
+  totalAmount     Decimal  @db.Decimal(10, 2)
+  shippingAddress Json?
+  paymentMethod   String
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([userId])
+  @@index([status])
+  @@map("orders")
+}
+
+// ============================================
+// COMMUNICATION MODULE: Chat System
+// ============================================
+
+model Conversation {
+  id          String   @id @default(uuid())
+  participants ConversationParticipant[]
+  messages    Message[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReadAt     DateTime?
+  joinedAt       DateTime     @default(now())
+
+  @@unique([conversationId, userId])
+  @@index([conversationId])
+  @@index([userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  content        String       @db.Text
+  senderId       String
+  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  attachments    String[]     @default([])
+  isRead         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+// ============================================
+// COMMUNICATION MODULE: Email Marketing
+// ============================================
+
+model EmailCampaign {
+  id          String         @id @default(uuid())
+  name        String
+  subject     String
+  content     String         @db.Text
+  recipients  String[]       @default([])
+  status      CampaignStatus @default(DRAFT)
+  scheduledAt DateTime?
+  sentAt      DateTime?
+  createdBy   String
+  creator     User           @relation(fields: [createdBy], references: [id])
+  stats       EmailStats?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([status])
+  @@index([createdBy])
+  @@index([scheduledAt])
+  @@map("email_campaigns")
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+  CANCELLED
+}
+
+model EmailStats {
+  id         String        @id @default(uuid())
+  campaignId String        @unique
+  campaign   EmailCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  sent       Int           @default(0)
+  opened     Int           @default(0)
+  clicked    Int           @default(0)
+  bounced    Int           @default(0)
+  unsubscribed Int         @default(0)
+  updatedAt  DateTime      @updatedAt
+
+  @@index([campaignId])
+  @@map("email_stats")
+}
+
+// ============================================
+// COMMUNICATION MODULE: Online Consultation
+// ============================================
+
+model Consultation {
+  id           String             @id @default(uuid())
+  clientId     String
+  client       User               @relation("ClientConsultations", fields: [clientId], references: [id], onDelete: Cascade)
+  consultantId String
+  consultant   User               @relation("ConsultantConsultations", fields: [consultantId], references: [id], onDelete: Cascade)
+  petId        String?
+  pet          Pet?                @relation(fields: [petId], references: [id], onDelete: SetNull)
+  scheduledAt  DateTime
+  duration     Int                @default(30) // minutes
+  status       ConsultationStatus @default(SCHEDULED)
+  notes        String?            @db.Text
+  documents    String[]           @default([])
+  roomId       String?            @unique
+  startedAt    DateTime?
+  endedAt      DateTime?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@index([clientId])
+  @@index([consultantId])
+  @@index([petId])
+  @@index([scheduledAt])
+  @@index([status])
+  @@map("consultations")
+}
+
+enum ConsultationStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}

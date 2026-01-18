@@ -1,0 +1,237 @@
+{
+    "navbar": {
+        "home": "Trang Chủ",
+        "shop": "Cửa Hàng",
+        "services": "Dịch Vụ",
+        "login": "Đăng Nhập",
+        "register": "Đăng Ký",
+        "admin": "Quản Trị",
+        "logout": "Đăng Xuất",
+        "contact": "Liên Hệ"
+    },
+    "footer": {
+        "services": {
+            "emergency": "Cấp Cứu",
+            "veterinary": "Thú Y",
+            "grooming": "Spa & Làm Đẹp",
+            "shop": "Cửa Hàng"
+        },
+        "premium_care": "Chăm sóc thú cưng cao cấp",
+        "rights_reserved": "Bảo lưu mọi quyền."
+    },
+    "home": {
+        "premium": "Chăm Sóc Thú Cưng Cao Cấp",
+        "hero": {
+            "title": "Chăm Sóc Cao Cấp Cho",
+            "subtitle": "Người Bạn Thân Thiết",
+            "desc": "Dịch vụ thú y chuyên nghiệp và sản phẩm cao cấp với sự chăm sóc đẳng cấp.",
+            "book_appointment": "Đặt Lịch Hẹn",
+            "shop_now": "Mua Sắm Ngay"
+        },
+        "stats": {
+            "happy_clients": "Khách Hàng",
+            "experience": "Năm Kinh Nghiệm",
+            "success_rate": "Tỷ Lệ Thành Công",
+            "expert_vets": "Bác Sĩ"
+        },
+        "services": {
+            "what_we_offer": "Dịch Vụ",
+            "our_services": "Dịch Vụ Cao Cấp",
+            "desc": "Chăm sóc toàn diện từ điều trị y tế đến làm đẹp.",
+            "vet": {
+                "title": "Chăm Sóc Thú Y",
+                "description": "Kiểm tra chuyên nghiệp, tiêm phòng và phẫu thuật cho thú cưng yêu quý của bạn."
+            },
+            "grooming": {
+                "title": "Dịch Vụ Cắt Tỉa",
+                "description": "Dịch vụ cắt tỉa toàn diện giúp thú cưng của bạn luôn sạch sẽ và thơm tho."
+            },
+            "shop": {
+                "title": "Cửa Hàng Cao Cấp",
+                "description": "Thực phẩm, đồ chơi và phụ kiện chất lượng cao được giao đến tận nhà."
+            },
+            "emergency": {
+                "title": "Cấp Cứu",
+                "description": "Hỗ trợ 24/7 cho tình huống khẩn cấp."
+            }
+        },
+        "testimonials": {
+            "title": "Khách Hàng Nói Gì",
+            "items": [
+                {
+                    "name": "Nguyễn Minh",
+                    "pet": "Mèo Ba Tư - Luna",
+                    "text": "Dịch vụ tuyệt vời! Luna rất thích đến đây.",
+                    "avatar": "🐱"
+                },
+                {
+                    "name": "Sarah Johnson",
+                    "pet": "Golden Retriever - Max",
+                    "text": "Dịch vụ tuyệt vời! Đội ngũ chuyên nghiệp và tận tâm.",
+                    "avatar": "🐕"
+                },
+                {
+                    "name": "Trần Hùng",
+                    "pet": "Poodle - Coco",
+                    "text": "Dịch vụ cấp cứu đã cứu thú cưng của tôi!",
+                    "avatar": "🐩"
+                }
+            ]
+        },
+        "cta": {
+            "title": "Sẵn Sàng Cho Thú Cưng Dịch Vụ Tốt Nhất?",
+            "desc": "Bác sĩ thú y giàu kinh nghiệm luôn sẵn sàng chăm sóc thú cưng của bạn.",
+            "schedule_now": "Đặt Lịch Ngay"
+        },
+        "badges": {
+            "licensed": "Bác Sĩ Chuyên Nghiệp",
+            "emergency": "Cấp Cứu 24/7",
+            "premium": "Chăm Sóc Cao Cấp"
+        },
+        "learn_more": "Tìm hiểu thêm"
+    },
+    "services_page": {
+        "title": "Dịch Vụ Của Chúng Tôi",
+        "subtitle": "Đội ngũ bác sĩ thú y chuyên nghiệp với hơn 10 năm kinh nghiệm, trang thiết bị hiện đại, tận tâm chăm sóc sức khỏe và hạnh phúc của thú cưng bạn 24/7",
+        "stats": {
+            "pets": "Thú Cưng Khỏe Mạnh",
+            "doctors": "Bác Sĩ Chuyên Nghiệp",
+            "support": "Sẵn Sàng Phục Vụ"
+        },
+        "emergency": {
+            "title": "🚨 Cấp Cứu & Chăm Sóc Đặc Biệt",
+            "desc": "Hỗ trợ khẩn cấp cho các tình huống nguy kịch. Đội ngũ bác sĩ luôn sẵn sàng phục vụ bạn.",
+            "hotline": "📞 1900-XXXX",
+            "call_now": "Gọi Ngay"
+        },
+        "groups": {
+            "preventive": {
+                "tag": "Chăm Sóc Phòng Ngừa",
+                "title": "Bảo Vệ Sức Khỏe Từ Sớm",
+                "desc": "Các gói dịch vụ phòng ngừa toàn diện giúp thú cưng của bạn luôn khỏe mạnh, vui vẻ và hạnh phúc mỗi ngày",
+                "items": [
+                    {
+                        "title": "Tiêm Phòng Vắc-xin",
+                        "desc": "Bảo vệ thú cưng khỏi các bệnh nguy hiểm như dại, care, parvo và các bệnh vi-rút, vi khuẩn nguy hiểm khác với vắc-xin chất lượng cao.",
+                        "meta": {
+                            "time": "⏱️ 30 phút",
+                            "note": "📋 Có sổ tiêm",
+                            "safety": "✅ An toàn"
+                        },
+                        "price": "Từ 200.000đ",
+                        "iconKey": 1,
+                        "link": "/vaccination"
+                    },
+                    {
+                        "title": "Phòng Ngừa Ký Sinh Trùng",
+                        "desc": "Kiểm soát và điều trị hiệu quả ký sinh trùng như giun, ve, bọ chét và các loại ký sinh trùng đường ruột bằng thuốc cao cấp.",
+                        "meta": {
+                            "time": "⏱️ 20 phút",
+                            "note": "🔄 Định kỳ 3 tháng",
+                            "safety": "💊 Thuốc nhập"
+                        },
+                        "price": "Từ 150.000đ",
+                        "iconKey": 2,
+                        "link": "/parasite-prevention"
+                    },
+                    {
+                        "title": "Kiểm Tra Sức Khỏe Định Kỳ",
+                        "desc": "Phát hiện sớm các vấn đề sức khỏe tiềm ẩn qua các xét nghiệm máu, nước tiểu và kiểm tra toàn diện với thiết bị hiện đại.",
+                        "meta": {
+                            "time": "⏱️ 45 phút",
+                            "note": "📊 Báo cáo chi tiết",
+                            "safety": "🔬 Xét nghiệm"
+                        },
+                        "price": "Từ 300.000đ",
+                        "iconKey": 3,
+                        "link": "/health-screening"
+                    }
+                ]
+            },
+            "medical": {
+                "tag": "Chẩn Đoán & Xét Nghiệm",
+                "title": "Công Nghệ Chẩn Đoán Hiện Đại",
+                "desc": "Trang thiết bị y tế tiên tiến nhập khẩu giúp chẩn đoán chính xác và nhanh chóng các vấn đề sức khỏe.",
+                "items": [
+                    {
+                        "title": "Khám & Điều Trị",
+                        "desc": "Khám lâm sàng kỹ lưỡng để đánh giá sức khỏe tổng quát.",
+                        "link": "/medical-examination",
+                        "iconKey": 4
+                    },
+                    {
+                        "title": "Chẩn Đoán Hình Ảnh",
+                        "desc": "Siêu âm, X-Quang và Xét nghiệm hiện đại.",
+                        "link": "/diagnostic-imaging",
+                        "iconKey": 5
+                    },
+                    {
+                        "title": "Lấy Cao Răng",
+                        "desc": "Làm sạch chuyên nghiệp ngăn ngừa bệnh nha chu.",
+                        "link": "/dental-scaling",
+                        "iconKey": 9
+                    }
+                ]
+            },
+            "surgical": {
+                "title": "Phẫu Thuật",
+                "items": [
+                    {
+                        "title": "Phẫu Thuật Ngoại Khoa",
+                        "desc": "Phẫu thuật an toàn với thiết bị theo dõi tiên tiến.",
+                        "link": "/surgery",
+                        "iconKey": 6
+                    },
+                    {
+                        "title": "Triệt Sản Thú Cưng",
+                        "desc": "Kiểm soát sinh sản và lợi ích sức khỏe lâu dài.",
+                        "link": "/spay-neuter",
+                        "iconKey": 7
+                    },
+                    {
+                        "title": "Đỡ Đẻ – Hộ Sinh",
+                        "desc": "Hỗ trợ chuyên môn cho thai kỳ và sinh nở.",
+                        "link": "/maternity",
+                        "iconKey": 8
+                    }
+                ]
+            }
+        }
+    },
+    "shop_page": {
+        "hero_title": "Sản Phẩm Cao Cấp",
+        "hero_subtitle": "Tất cả những gì thú cưng của bạn cần",
+        "filters": {
+            "title": "Bộ Lọc",
+            "category": "Danh Mục",
+            "price_range": "Khoảng Giá",
+            "rating": "Đánh Giá",
+            "reset": "Đặt Lại",
+            "rating_up": "trở lên"
+        },
+        "categories": {
+            "all": "Tất Cả",
+            "dog": "Cho Chó",
+            "cat": "Cho Mèo"
+        },
+        "toolbar": {
+            "products_found": "sản phẩm",
+            "sort_by": {
+                "popular": "Phổ Biến Nhất",
+                "price_low": "Giá: Thấp đến Cao",
+                "price_high": "Giá: Cao đến Thấp",
+                "rating": "Đánh Giá Cao",
+                "newest": "Mới Nhất"
+            }
+        },
+        "product": {
+            "add_to_cart": "Thêm",
+            "out_of_stock": "HẾT HÀNG",
+            "tags": {
+                "sale": "GIẢM GIÁ",
+                "new": "MỚI",
+                "popular": "PHỔ BIẾN"
+            }
+        }
+    }
+}

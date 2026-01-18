@@ -1,0 +1,7 @@
+{
+  "name": "Test Dog Bone",
+  "shortDescription": "A delicious bone for dogs",
+  "categoryId": "c1b8674f-6ad0-465d-8c7b-87ab8b79e31a",
+  "regularPrice": 25.99,
+  "stock": 100
+}
